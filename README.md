@@ -92,6 +92,79 @@ GET /surveys/:id
 
 Will delete the Survey, and return a `204`, with no content.
 
+### Questions
+
+#### `GET` Questions from a Certain Survey
+
+```
+GET /surveys/:survey_id/questions
+
+# :survey_id is the Id of the Survey
+```
+
+Returns the Questions in the Survey
+
+``` json
+[
+  {
+    "id": 1,
+    "question": "Absolute First Question?",
+    "order": 1,
+    "survey_id": 2,
+    "created_at": "2018-12-20T21:43:39.008Z",
+    "updated_at": "2018-12-20T22:25:13.003Z"
+  },
+  {
+    "id": 2,
+    "question": "Second Question?",
+    "order": 2,
+    "survey_id": 2,
+    "created_at": "2018-12-20T21:45:31.926Z",
+    "updated_at": "2018-12-20T21:45:31.926Z"
+  }
+]
+```
+
+#### `POST` A new Question to a Survey
+
+```
+POST /surveys/:survey_id/questions
+
+# :survey_id is the Id of the Survey
+```
+
+The type of question you want to create determines the data you'll send over. You **must** provide the "type" value in the request body to ensure we can find the proper Question type to create. Valid values, and the applicable request body for type are:
+
+| type       | rest of request body                              |
+|------------|---------------------------------------------------|
+| text_input | question: "Unique String to Survey" <br>order: Number |
+
+Returns the newly created Question, with status of 202. If the "type" is not defined, returns a `404`. Otherwise, and error is returned with status `400`.
+
+#### `PUT/PATCH` A Question to update
+
+Like with creating a new question, the "type" value provided in the request body is essential to finding which type of question to update. Follow the guidelines in the `POST` section above to see what your request body should include.
+
+```
+PUT /questions/:id
+
+# :id is the Id of the Question
+```
+
+Returns the updated question, or an error with either `404` or `400` error.
+
+#### `DELETE` A Question to delete
+
+Like with creating a new question, the "type" value provided in the request body is essential to finding which type of question to delete. Follow the guidelines in the `POST` section above to see what your request body should include.
+
+```
+DELETE /questions/:id
+
+# :id is the Id of the Question
+```
+
+Returns no content with `204` status, or an error with `404`.
+
 ## Development
 
 Ensure you have at least Ruby 2.5 and Rails >5 installed. 
