@@ -1,11 +1,16 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  question: MyString
+  question: My first question?
   order: 1
   survey: one
 
 two:
-  question: MyString
+  question: Another question?
+  order: 2
+  survey: one
+
+one:
+  question: Existential question?
   order: 1
   survey: two
