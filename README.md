@@ -165,6 +165,61 @@ DELETE /questions/:id
 
 Returns no content with `204` status, or an error with `404`.
 
+### Answers
+
+| type       | rest of request body                              |
+|------------|---------------------------------------------------|
+| text_input | answer: "Answerrr" <br>quid_id: StringIdFancy     |
+
+#### `GET` Show a single Answer
+
+Like with questions, the "type" value provided in the request body is essential to finding which type of question to retrieve. Follow the information above to determine with values to include in your request body.
+
+```
+GET /answers/:id
+
+# :id is the Id of the Answer
+```
+
+Returns the the answer details with status of `200`.
+
+``` json
+{
+    "id": 1,
+    "answer": "My considered response, expanded upon",
+    "input_text_question_id": 2,
+    "quip_id": "QuipIdFancyString",
+    "created_at": "2018-12-20T23:36:24.959Z",
+    "updated_at": "2018-12-20T23:51:02.107Z"
+}
+```
+
+Otherwise it returns an error message with either `400` or `404`
+
+#### `POST` Create an Answer to a Question
+
+Once again, the "type" value provided in the request body is essential to finding which type of question to create. 
+
+```
+POST /questions/:question_id/answers
+
+# :question_id is the Id of the Associated Question
+```
+
+Returns the answer details, along with a status iof `201`. If there is an error it returns it with either status of `400` or `404`.
+
+#### `PUT/PATCH` Update an Answer
+
+Once again, the "type" value provided in the request body is essential to finding which type of question to update. 
+
+```
+PUT/PATCH /answers/:id
+
+# :id is the Id of the Answer
+```
+
+Returns the answer details, along with a status iof `200`. If there is an error it returns it with either status of `400` or `404`.
+
 ## Development
 
 Ensure you have at least Ruby 2.5 and Rails >5 installed. 
