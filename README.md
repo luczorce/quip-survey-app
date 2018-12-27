@@ -222,11 +222,19 @@ Returns the answer details, along with a status iof `200`. If there is an error 
 
 ## Development
 
-Ensure you have at least Ruby 2.5 and Rails >5 installed. 
+Ensure you have at least Ruby 2.5 and Rails >5 installed. Create a .env file locally, and set the following:
+
+```
+RACK_ENV=development
+PORT=3000
+SECURE_KEY=whateveryouwantlocally
+```
+
+Then you can install and run the app locally with Heroku:
 
 ``` bash
 cd quip_survey_app
 bundle install
 rails db:setup
-rails server
+heroku local
 ```
