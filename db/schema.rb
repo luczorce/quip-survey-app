@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_20_001448) do
+ActiveRecord::Schema.define(version: 2018_12_28_212437) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 2018_12_20_001448) do
     t.bigint "input_text_question_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "answer_type", default: "text_input"
     t.index ["input_text_question_id"], name: "index_input_text_answers_on_input_text_question_id"
   end
 
@@ -30,6 +31,7 @@ ActiveRecord::Schema.define(version: 2018_12_20_001448) do
     t.bigint "survey_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "question_type", default: "text_input"
     t.index ["survey_id"], name: "index_input_text_questions_on_survey_id"
   end
 

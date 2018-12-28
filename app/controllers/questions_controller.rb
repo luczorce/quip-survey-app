@@ -11,7 +11,7 @@ class QuestionsController < ApplicationController
   def create
     question = nil
 
-    if (params[:type] == 'text_input')
+    if (params[:type] == "text_input")
       question = InputTextQuestion.new
 
       question.question = question_params[:question]
@@ -33,7 +33,7 @@ class QuestionsController < ApplicationController
   def update
     question = nil
 
-    if (params[:type] == 'text_input')
+    if (params[:type] == "text_input")
       question = InputTextQuestion.find(params[:id])
       question.update!(question_params)
     end
@@ -55,7 +55,7 @@ class QuestionsController < ApplicationController
   def destroy
     question = nil
 
-    if (params[:type] == 'text_input')
+    if (params[:type] == "text_input")
       question = InputTextQuestion.find(params[:id])
       question.destroy
     end
@@ -70,7 +70,7 @@ class QuestionsController < ApplicationController
   private
 
   def question_params
-    if (params[:type] == 'text_input')
+    if (params[:type] == "text_input")
       params.permit(:question, :order)
     end
   end
