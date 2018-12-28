@@ -165,7 +165,7 @@ Returns no content with `204` status, or an error with `404`.
 
 | type       | rest of request body                              |
 |------------|---------------------------------------------------|
-| text_input | answer: "Answerrr" <br>quid_id: StringIdFancy     |
+| text_input | answer: "Answerrr" <br>quip_id: StringIdFancy     |
 
 #### `GET` Show a single Answer
 
