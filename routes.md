@@ -134,6 +134,7 @@ The type of question you want to create determines the data you'll send over. Yo
 | type       | rest of request body                              |
 |------------|---------------------------------------------------|
 | text_input | question: "Unique String to Survey" <br>order: Number |
+| textarea   | question: "Unique String to Survey" <br>order: Number |
 
 Returns the newly created Question, with status of 202. If the "type" is not defined, returns a `404`. Otherwise, and error is returned with status `400`.
 

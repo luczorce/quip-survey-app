@@ -1,10 +1,14 @@
 class QuestionsController < ApplicationController
   def index
-    # questions = Array.new
-    # questions << InputTextQuestion.where(...)
-    # questions.order(:order)
+    questions = Array.new
 
-    questions = InputTextQuestion.where(survey_id: params[:survey_id]).order(:order)
+    questions.concat(InputTextQuestion.where(survey_id: params[:survey_id]).order(:order))
+    questions.concat(TextareaQuestion.where(survey_id: params[:survey_id]).order(:order))
+
+    questions.sort_by! do |q|
+      q[:order]
+    end
+
     render json: questions, status: :ok
   end
 
@@ -13,13 +17,15 @@ class QuestionsController < ApplicationController
 
     if (params[:type] == "text_input")
       question = InputTextQuestion.new
-
-      question.question = question_params[:question]
-      question.order = question_params[:order]
-      question.survey_id = params[:survey_id]
-
-      question.save!
+    elsif (params[:type] == "textarea")
+      question = TextareaQuestion.new
     end
+
+    question.question = question_params[:question]
+    question.order = question_params[:order]
+    question.survey_id = params[:survey_id]
+
+    question.save!
 
     if question
       render json: question, status: :created
@@ -33,17 +39,19 @@ class QuestionsController < ApplicationController
   def update
     question = nil
 
-    if (params[:type] == "text_input")
+    if params[:type] == "text_input"
       question = InputTextQuestion.find(params[:id])
-      question.update!(question_params)
+    elsif params[:type] == "textara"
+      question = TextareaQuestion.find(params[:id])
     end
+    
+    question.update!(question_params) unless question.nil?
 
     if question
       render json: question, status: :ok
     else 
       render json: {error: missing_question_type("update")}, status: :bad_request
     end
-
   rescue ActiveRecord::RecordInvalid => invalid
     render json: invalid.record.errors, status: :bad_request
   rescue ActiveRecord::RecordNotFound => missing
@@ -55,10 +63,13 @@ class QuestionsController < ApplicationController
   def destroy
     question = nil
 
-    if (params[:type] == "text_input")
+    if params[:type] == "text_input"
       question = InputTextQuestion.find(params[:id])
-      question.destroy
+    elsif params[:type] == "textarea"
+      question = TextareaQuestion.find(params[:id])
     end
+
+    question.destroy unless question.nil?
 
     if question
       head :no_content
@@ -70,7 +81,7 @@ class QuestionsController < ApplicationController
   private
 
   def question_params
-    if (params[:type] == "text_input")
+    if ["text_input", "textarea"].include? params[:type]
       params.permit(:question, :order)
     end
   end
