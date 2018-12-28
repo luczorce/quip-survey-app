@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  question: My Complicated Question?
+  order: 3
+  survey: one
+
+two:
+  question: A follow up for more detail Question?
+  order: 2
+  survey: two

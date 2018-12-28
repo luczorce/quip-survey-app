@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  answer: A really long answer
+  textarea_question: one
+
+two:
+  answer: More text that has a lot of complicated language
+  textarea_question: two

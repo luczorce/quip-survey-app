@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_28_212437) do
+ActiveRecord::Schema.define(version: 2018_12_28_213707) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,28 @@ ActiveRecord::Schema.define(version: 2018_12_28_212437) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "textarea_answers", force: :cascade do |t|
+    t.text "answer"
+    t.string "quip_id"
+    t.string "answer_type", default: "textarea"
+    t.bigint "textarea_question_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["textarea_question_id"], name: "index_textarea_answers_on_textarea_question_id"
+  end
+
+  create_table "textarea_questions", force: :cascade do |t|
+    t.string "question"
+    t.integer "order"
+    t.string "question_type", default: "textarea"
+    t.bigint "survey_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["survey_id"], name: "index_textarea_questions_on_survey_id"
+  end
+
   add_foreign_key "input_text_answers", "input_text_questions"
   add_foreign_key "input_text_questions", "surveys"
+  add_foreign_key "textarea_answers", "textarea_questions"
+  add_foreign_key "textarea_questions", "surveys"
 end
