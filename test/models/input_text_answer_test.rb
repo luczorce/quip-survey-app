@@ -41,4 +41,26 @@ class InputTextAnswerTest < ActiveSupport::TestCase
 
     assert answer.save
   end
+
+  test "will be deleted when the question it belongs to is destroyed" do
+    answer = InputTextAnswer.new
+    answer.input_text_question = InputTextQuestion.first
+    answer.quip_id = "quipDocumentId"
+
+    answer.save
+
+    InputTextQuestion.first.destroy
+    assert_not InputTextAnswer.all.include?(answer)
+  end
+
+  test "will be deleted when the survey (that the question it belongs to) is destroyed" do
+    answer = InputTextAnswer.new
+    answer.input_text_question = InputTextQuestion.first
+    answer.quip_id = "quipDocumentId"
+
+    answer.save
+
+    InputTextQuestion.first.survey.destroy
+    assert_not InputTextAnswer.all.include?(answer)
+  end
 end

@@ -33,4 +33,16 @@ class InputTextQuestionTest < ActiveSupport::TestCase
 
     assert question_second.save
   end
+
+  test "will be deleted when the survey it belongs to is deleted" do
+    question = InputTextQuestion.new
+    question.survey = Survey.last
+    question.question = "First Question?"
+    question.save
+
+    id = question.id
+
+    Survey.last.destroy
+    assert_not InputTextQuestion.all.include?(question)
+  end
 end
