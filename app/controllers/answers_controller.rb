@@ -2,8 +2,10 @@ class AnswersController < ApplicationController
   def show
     answer = nil
 
-    if (params[:type] == "text_input")
+    if params[:type] == "text_input"
       answer = InputTextAnswer.find(params[:id])
+    elsif params[:type] == "textarea"
+      answer = TextareaAnswer.find(params[:id])
     end
 
     if answer
@@ -18,12 +20,15 @@ class AnswersController < ApplicationController
   def create
     answer = nil
 
-    if (params[:type] == "text_input")
+    if params[:type] == "text_input"
       answer = InputTextAnswer.new(answer_params)
-
       answer.input_text_question_id = params[:question_id];
-      answer.save!
+    elsif params[:type] == "textarea"
+      answer = TextareaAnswer.new(answer_params)
+      answer.textarea_question_id = params[:question_id];
     end
+
+    answer.save! unless answer.nil?
 
     if answer
       render json: answer, status: :created
@@ -37,17 +42,19 @@ class AnswersController < ApplicationController
   def update
     answer = nil
 
-    if (params[:type] == 'text_input')
+    if params[:type] == "text_input"
       answer = InputTextAnswer.find(params[:id])
-      answer.update!(answer_params)
+    elsif params[:type] == "textarea"
+      answer = TextareaAnswer.find(params[:id])
     end
+
+    answer.update!(answer_params) unless answer.nil?
 
     if answer
       render json: answer, status: :ok
     else 
       render json: {error: missing_answer_type("update")}, status: :bad_request
     end
-
   rescue ActiveRecord::RecordInvalid => invalid
     render json: invalid.record.errors, status: :bad_request
   rescue ActiveRecord::RecordNotFound => missing
