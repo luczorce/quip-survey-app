@@ -21,8 +21,8 @@ class QuestionsController < ApplicationController
     elsif is_textarea_question?
       question = TextareaQuestion.new(question_params)
     elsif is_option_question?
-      question = OptionQuestion.new(question_params)
-      alter_question_options(question)
+      option_question_params = alter_question_options(question_params)
+      question = OptionQuestion.new(option_question_params)
     end
 
     question.save! unless question.nil?
@@ -48,12 +48,7 @@ class QuestionsController < ApplicationController
     end
 
     if is_option_question?
-      updates = question_params
-
-      if !updates[:options].nil? and updates[:options].kind_of?(String)
-        updates[:options] = updates[:options].split("~~~")
-      end
-
+      option_question_params = alter_question_options(question_params)
       question.update!(updates) unless question.nil?
     else
       question.update!(question_params) unless question.nil?
@@ -94,10 +89,12 @@ class QuestionsController < ApplicationController
 
   private
 
-  def alter_question_options(question)
-    if !params[:options].nil? and !params[:options].kind_of?(Array)
-      question.options = params[:options].split("~~~")
+  def alter_question_options(q_params_hash)
+    if !q_params_hash[:options].nil? and q_params_hash[:options].kind_of?(String)
+      q_params_hash[:options] = q_params_hash[:options].split("~~~")
     end
+
+    return q_params_hash
   end
 
   def is_text_input_question?

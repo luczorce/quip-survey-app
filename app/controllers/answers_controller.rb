@@ -2,10 +2,12 @@ class AnswersController < ApplicationController
   def show
     answer = nil
 
-    if params[:type] == "text_input"
+    if is_text_input_question?
       answer = InputTextAnswer.find(params[:id])
-    elsif params[:type] == "textarea"
+    elsif is_textarea_question?
       answer = TextareaAnswer.find(params[:id])
+    elsif is_option_question?
+      answer = OptionAnswer.find(params[:id])
     end
 
     if answer
@@ -20,12 +22,16 @@ class AnswersController < ApplicationController
   def create
     answer = nil
 
-    if params[:type] == "text_input"
+    if is_text_input_question?
       answer = InputTextAnswer.new(answer_params)
-      answer.input_text_question_id = params[:question_id];
-    elsif params[:type] == "textarea"
+      answer.input_text_question_id = params[:question_id]
+    elsif is_textarea_question?
       answer = TextareaAnswer.new(answer_params)
-      answer.textarea_question_id = params[:question_id];
+      answer.textarea_question_id = params[:question_id]
+    elsif is_option_question?
+      option_answer_params = alter_option_answer(answer_params)
+      answer = OptionAnswer.new(option_answer_params)
+      answer.option_question_id = params[:question_id]
     end
 
     answer.save! unless answer.nil?
@@ -42,13 +48,20 @@ class AnswersController < ApplicationController
   def update
     answer = nil
 
-    if params[:type] == "text_input"
+    if is_text_input_question?
       answer = InputTextAnswer.find(params[:id])
-    elsif params[:type] == "textarea"
+    elsif is_textarea_question?
       answer = TextareaAnswer.find(params[:id])
+    elsif is_option_question?
+      answer = OptionAnswer.find(params[:id])
     end
 
-    answer.update!(answer_params) unless answer.nil?
+    if is_option_question?
+      option_answer_params = alter_option_answer(answer_params)
+      answer.update!(option_answer_params) unless answer.nil?
+    else
+      answer.update!(answer_params) unless answer.nil?
+    end
 
     if answer
       render json: answer, status: :ok
@@ -65,8 +78,28 @@ class AnswersController < ApplicationController
 
   private
 
+  def alter_option_answer(answer_hash) 
+    if !answer_hash[:answer].nil? and answer_hash[:answer].kind_of?(String)
+      answer_hash[:answer] = answer_hash[:answer].split("~~~")
+    end
+
+    return answer_hash
+  end
+
   def answer_params
-    params.permit(:answer, :quip_id)
+    params.permit(:answer, :quip_id, :answer_type)
+  end
+
+  def is_text_input_question?
+    params[:answer_type] == "text_input"
+  end
+
+  def is_textarea_question?
+    params[:answer_type] == "textarea"
+  end
+
+  def is_option_question?
+    ["select", "radio", "checkbox"].include? params[:answer_type]
   end
 
   def missing_answer_type(action= "create") 

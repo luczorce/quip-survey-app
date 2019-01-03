@@ -7,6 +7,7 @@ class OptionAnswer < ApplicationRecord
     inclusion: { in: ["select", "radio", "checkbox"], message: "%{value} is not a valid type" }
 
   validate :answer_length, :type_matches_question
+  # TODO add a validation that the answer matches the options from the question
 
   private
 
