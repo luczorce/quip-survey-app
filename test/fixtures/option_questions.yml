@@ -14,7 +14,7 @@ two:
   order: 3
   question_type: radio
 
-two:
+three:
   question: Please choose any from the checkboxes?
   survey: two
   options: [ "option 1", "option 2", "option 3", "option 4", "option 5" ]

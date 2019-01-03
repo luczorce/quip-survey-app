@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_03_155317) do
+ActiveRecord::Schema.define(version: 2019_01_03_174130) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,6 +33,16 @@ ActiveRecord::Schema.define(version: 2019_01_03_155317) do
     t.datetime "updated_at", null: false
     t.string "question_type", default: "text_input"
     t.index ["survey_id"], name: "index_input_text_questions_on_survey_id"
+  end
+
+  create_table "option_answers", force: :cascade do |t|
+    t.string "answer", array: true
+    t.string "quip_id"
+    t.string "answer_type"
+    t.bigint "option_question_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["option_question_id"], name: "index_option_answers_on_option_question_id"
   end
 
   create_table "option_questions", force: :cascade do |t|
@@ -74,6 +84,7 @@ ActiveRecord::Schema.define(version: 2019_01_03_155317) do
 
   add_foreign_key "input_text_answers", "input_text_questions"
   add_foreign_key "input_text_questions", "surveys"
+  add_foreign_key "option_answers", "option_questions"
   add_foreign_key "option_questions", "surveys"
   add_foreign_key "textarea_answers", "textarea_questions"
   add_foreign_key "textarea_questions", "surveys"

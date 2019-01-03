@@ -1,5 +1,6 @@
 class OptionQuestion < ApplicationRecord
   belongs_to :survey
+  has_many :option_answers, :dependent => :destroy
 
   validates :question, presence: true, uniqueness: { scope: :survey }
   validates :question_type, 
