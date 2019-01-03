@@ -2,8 +2,9 @@ class QuestionsController < ApplicationController
   def index
     questions = Array.new
 
-    questions.concat(InputTextQuestion.where(survey_id: params[:survey_id]).order(:order))
-    questions.concat(TextareaQuestion.where(survey_id: params[:survey_id]).order(:order))
+    questions.concat(InputTextQuestion.where(survey_id: params[:survey_id]))
+    questions.concat(TextareaQuestion.where(survey_id: params[:survey_id]))
+    questions.concat(OptionQuestion.where(survey_id: params[:survey_id]))
 
     questions.sort_by! do |q|
       q[:order]
@@ -15,17 +16,16 @@ class QuestionsController < ApplicationController
   def create
     question = nil
 
-    if (params[:type] == "text_input")
-      question = InputTextQuestion.new
-    elsif (params[:type] == "textarea")
-      question = TextareaQuestion.new
+    if is_text_input_question?
+      question = InputTextQuestion.new(question_params)
+    elsif is_textarea_question?
+      question = TextareaQuestion.new(question_params)
+    elsif is_option_question?
+      question = OptionQuestion.new(question_params)
+      alter_question_options(question)
     end
 
-    question.question = question_params[:question]
-    question.order = question_params[:order]
-    question.survey_id = params[:survey_id]
-
-    question.save!
+    question.save! unless question.nil?
 
     if question
       render json: question, status: :created
@@ -39,13 +39,25 @@ class QuestionsController < ApplicationController
   def update
     question = nil
 
-    if params[:type] == "text_input"
+    if is_text_input_question?
       question = InputTextQuestion.find(params[:id])
-    elsif params[:type] == "textara"
+    elsif is_textarea_question?
       question = TextareaQuestion.find(params[:id])
+    elsif is_option_question?
+      question = OptionQuestion.find(params[:id])
     end
-    
-    question.update!(question_params) unless question.nil?
+
+    if is_option_question?
+      updates = question_params
+
+      if !updates[:options].nil? and updates[:options].kind_of?(String)
+        updates[:options] = updates[:options].split("~~~")
+      end
+
+      question.update!(updates) unless question.nil?
+    else
+      question.update!(question_params) unless question.nil?
+    end
 
     if question
       render json: question, status: :ok
@@ -63,10 +75,12 @@ class QuestionsController < ApplicationController
   def destroy
     question = nil
 
-    if params[:type] == "text_input"
+    if is_text_input_question?
       question = InputTextQuestion.find(params[:id])
-    elsif params[:type] == "textarea"
+    elsif is_textarea_question?
       question = TextareaQuestion.find(params[:id])
+    elsif is_option_question?
+      question = OptionQuestion.find(params[:id])
     end
 
     question.destroy unless question.nil?
@@ -80,13 +94,33 @@ class QuestionsController < ApplicationController
 
   private
 
-  def question_params
-    if ["text_input", "textarea"].include? params[:type]
-      params.permit(:question, :order)
+  def alter_question_options(question)
+    if !params[:options].nil? and !params[:options].kind_of?(Array)
+      question.options = params[:options].split("~~~")
     end
+  end
+
+  def is_text_input_question?
+    params[:question_type] == "text_input"
+  end
+
+  def is_textarea_question?
+    params[:question_type] == "textarea"
+  end
+
+  def is_option_question?
+    ["select", "radio", "checkbox"].include? params[:question_type]
   end
 
   def missing_question_type(action= "create") 
     "Could not determine which question to #{action}"
+  end
+
+  def question_params
+    if is_option_question?
+      return params.permit(:question, :question_type, :order, :options, :survey_id)
+    else
+      return params.permit(:question, :question_type, :order, :survey_id)
+    end
   end
 end
