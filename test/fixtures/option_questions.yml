@@ -1,0 +1,22 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  question: Please choose something from the select box?
+  survey: one
+  options: [ "option 1", "option 2", "option 3", "option 4", "option 5" ]
+  order: 4
+  question_type: select
+
+two:
+  question: Please choose one from the radio options?
+  survey: two
+  options: [ "option 1", "option 2", "option 3", "option 4", "option 5" ]
+  order: 3
+  question_type: radio
+
+two:
+  question: Please choose any from the checkboxes?
+  survey: two
+  options: [ "option 1", "option 2", "option 3", "option 4", "option 5" ]
+  order: 4
+  question_type: checkbox
