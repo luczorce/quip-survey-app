@@ -90,12 +90,23 @@ Will delete the Survey, and return a `204`, with no content.
 
 ### Questions
 
+The type of question you want to create determines the data you'll send over. You **must** provide the "question_type" value in the request body to ensure we can find the proper Question type to create/edit/delete. Valid values, and the applicable request body for type are:
+
+| question_type | question | order  | options |
+|---------------|:---------|:-------|:--------|
+| text_input    | String   | Number | _do not include_ |
+| textarea      | String   | Number | _do not include_ |
+| select        | String   | Number | Strings~~~Separated~~~With the Tildas |
+| radio         | String   | Number | Strings~~~Separated~~~With the Tildas |
+| checkbox      | String   | Number | Strings~~~Separated~~~With the Tildas |
+
 #### `GET` Questions from a Certain Survey
 
 ```
 GET /surveys/:survey_id/questions
 
 # :survey_id is the Id of the Survey
+# _question_type is not required here_
 ```
 
 Returns the Questions in the Survey
@@ -127,55 +138,52 @@ Returns the Questions in the Survey
 POST /surveys/:survey_id/questions
 
 # :survey_id is the Id of the Survey
+# include data in the body according to the question table above
 ```
 
-The type of question you want to create determines the data you'll send over. You **must** provide the "type" value in the request body to ensure we can find the proper Question type to create. Valid values, and the applicable request body for type are:
-
-| type       | rest of request body                              |
-|------------|---------------------------------------------------|
-| text_input | question: "Unique String to Survey" <br>order: Number |
-| textarea   | question: "Unique String to Survey" <br>order: Number |
-
-Returns the newly created Question, with status of 202. If the "type" is not defined, returns a `404`. Otherwise, and error is returned with status `400`.
+Returns the newly created Question, with status of 202. If the "question_type" is not defined, returns a `404`. Otherwise, and error is returned with status `400`.
 
 #### `PUT/PATCH` A Question to update
-
-Like with creating a new question, the "type" value provided in the request body is essential to finding which type of question to update. Follow the guidelines in the `POST` section above to see what your request body should include.
 
 ```
 PUT /questions/:id
 
 # :id is the Id of the Question
+# include data in the body according to the question table above
 ```
 
 Returns the updated question, or an error with either `404` or `400` error.
 
 #### `DELETE` A Question to delete
 
-Like with creating a new question, the "type" value provided in the request body is essential to finding which type of question to delete. Follow the guidelines in the `POST` section above to see what your request body should include.
-
 ```
 DELETE /questions/:id
 
 # :id is the Id of the Question
+# include question_type in the body according to the question table above
 ```
 
 Returns no content with `204` status, or an error with `404`.
 
 ### Answers
 
-| type       | rest of request body                              |
-|------------|---------------------------------------------------|
-| text_input | answer: "Answerrr" <br>quip_id: StringIdFancy     |
+You **must** provide the "answer_type" value in the request body to ensure we can find the proper Answer type to create/edit/delete. Valid values, and the applicable request body for type are:
+
+| answer_type | quip_id | answer            |
+|-------------|:--------|:------------------|
+| text_input  | String  | String            |
+| textarea    | String  | String            |
+| select      | String  | String            |
+| radio       | String  | String            |
+| checkbox    | String  | String~~~And More |
 
 #### `GET` Show a single Answer
-
-Like with questions, the "type" value provided in the request body is essential to finding which type of question to retrieve. Follow the information above to determine with values to include in your request body.
 
 ```
 GET /answers/:id
 
 # :id is the Id of the Answer
+# include the answer_type in the body
 ```
 
 Returns the the answer details with status of `200`.
@@ -187,7 +195,8 @@ Returns the the answer details with status of `200`.
     "input_text_question_id": 2,
     "quip_id": "QuipIdFancyString",
     "created_at": "2018-12-20T23:36:24.959Z",
-    "updated_at": "2018-12-20T23:51:02.107Z"
+    "updated_at": "2018-12-20T23:51:02.107Z",
+    "answer_type": "text_input"
 }
 ```
 
@@ -201,18 +210,20 @@ Once again, the "type" value provided in the request body is essential to findin
 POST /questions/:question_id/answers
 
 # :question_id is the Id of the Associated Question
+# include the answer_type, quip_id, and answer in the body
 ```
 
 Returns the answer details, along with a status iof `201`. If there is an error it returns it with either status of `400` or `404`.
 
 #### `PUT/PATCH` Update an Answer
 
-Once again, the "type" value provided in the request body is essential to finding which type of question to update. 
+Once again, the "answer_type" value provided in the request body is essential to finding which type of answer to update. 
 
 ```
 PUT/PATCH /answers/:id
 
 # :id is the Id of the Answer
+# include the answer_type and answer in the body
 ```
 
 Returns the answer details, along with a status iof `200`. If there is an error it returns it with either status of `400` or `404`.
