@@ -1,0 +1,29 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  question: A question for a number with min and max range?
+  min: 2
+  max: 10
+  order: 10
+  survey: one
+  question_type: number_input
+
+two:
+  question: A question for a number with only min range?
+  min: 5
+  order: 11
+  survey: two
+  question_type: number_input
+
+three:
+  question: A question for a number with only max range?
+  max: 100
+  order: 12
+  survey: two
+  question_type: number_input
+
+four:
+  question: A question for a number with no range?
+  order: 13
+  survey: two
+  question_type: number_input

@@ -10,10 +10,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_03_174130) do
+ActiveRecord::Schema.define(version: 2019_01_07_042239) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "input_number_answers", force: :cascade do |t|
+    t.integer "answer"
+    t.string "quip_id"
+    t.string "answer_type", default: "number_input"
+    t.bigint "input_number_question_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["input_number_question_id"], name: "index_input_number_answers_on_input_number_question_id"
+  end
+
+  create_table "input_number_questions", force: :cascade do |t|
+    t.string "question"
+    t.integer "min"
+    t.integer "max"
+    t.integer "order"
+    t.string "question_type", default: "number_input"
+    t.bigint "survey_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["survey_id"], name: "index_input_number_questions_on_survey_id"
+  end
 
   create_table "input_text_answers", force: :cascade do |t|
     t.string "answer"
@@ -82,6 +104,8 @@ ActiveRecord::Schema.define(version: 2019_01_03_174130) do
     t.index ["survey_id"], name: "index_textarea_questions_on_survey_id"
   end
 
+  add_foreign_key "input_number_answers", "input_number_questions"
+  add_foreign_key "input_number_questions", "surveys"
   add_foreign_key "input_text_answers", "input_text_questions"
   add_foreign_key "input_text_questions", "surveys"
   add_foreign_key "option_answers", "option_questions"
