@@ -4,6 +4,8 @@ class AnswersController < ApplicationController
 
     if is_text_input_question?
       answer = InputTextAnswer.find(params[:id])
+    elsif is_number_input_question?
+      answer = InputNumberAnswer.find(params[:id])
     elsif is_textarea_question?
       answer = TextareaAnswer.find(params[:id])
     elsif is_option_question?
@@ -25,6 +27,9 @@ class AnswersController < ApplicationController
     if is_text_input_question?
       answer = InputTextAnswer.new(answer_params)
       answer.input_text_question_id = params[:question_id]
+    elsif is_number_input_question?
+      answer = InputNumberAnswer.new(answer_params)
+      answer.input_number_question_id = params[:question_id]
     elsif is_textarea_question?
       answer = TextareaAnswer.new(answer_params)
       answer.textarea_question_id = params[:question_id]
@@ -50,6 +55,8 @@ class AnswersController < ApplicationController
 
     if is_text_input_question?
       answer = InputTextAnswer.find(params[:id])
+    elsif is_number_input_question?
+      answer = InputNumberAnswer.find(params[:id])
     elsif is_textarea_question?
       answer = TextareaAnswer.find(params[:id])
     elsif is_option_question?
@@ -88,6 +95,10 @@ class AnswersController < ApplicationController
 
   def answer_params
     params.permit(:answer, :quip_id, :answer_type)
+  end
+
+  def is_number_input_question?
+    params[:answer_type] == "number_input"
   end
 
   def is_text_input_question?
