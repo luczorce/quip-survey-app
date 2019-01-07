@@ -2,6 +2,7 @@ class QuestionsController < ApplicationController
   def index
     questions = Array.new
 
+    questions.concat(InputNumberQuestion.where(survey_id: params[:survey_id]))
     questions.concat(InputTextQuestion.where(survey_id: params[:survey_id]))
     questions.concat(TextareaQuestion.where(survey_id: params[:survey_id]))
     questions.concat(OptionQuestion.where(survey_id: params[:survey_id]))
@@ -18,6 +19,8 @@ class QuestionsController < ApplicationController
 
     if is_text_input_question?
       question = InputTextQuestion.new(question_params)
+    elsif is_number_input_question?
+      question = InputNumberQuestion.new(question_params)
     elsif is_textarea_question?
       question = TextareaQuestion.new(question_params)
     elsif is_option_question?
@@ -41,6 +44,8 @@ class QuestionsController < ApplicationController
 
     if is_text_input_question?
       question = InputTextQuestion.find(params[:id])
+    elsif is_number_input_question?
+      question = InputNumberQuestion.find(params[:id])
     elsif is_textarea_question?
       question = TextareaQuestion.find(params[:id])
     elsif is_option_question?
@@ -72,6 +77,8 @@ class QuestionsController < ApplicationController
 
     if is_text_input_question?
       question = InputTextQuestion.find(params[:id])
+    elsif is_number_input_question?
+      question = InputNumberQuestion.find(params[:id])
     elsif is_textarea_question?
       question = TextareaQuestion.find(params[:id])
     elsif is_option_question?
@@ -97,6 +104,10 @@ class QuestionsController < ApplicationController
     return q_params_hash
   end
 
+  def is_number_input_question?
+    params[:question_type] == "number_input"
+  end
+
   def is_text_input_question?
     params[:question_type] == "text_input"
   end
@@ -116,6 +127,8 @@ class QuestionsController < ApplicationController
   def question_params
     if is_option_question?
       return params.permit(:question, :question_type, :order, :options, :survey_id)
+    elsif is_number_input_question?
+      return params.permit(:question, :question_type, :order, :min, :max, :survey_id)
     else
       return params.permit(:question, :question_type, :order, :survey_id)
     end
