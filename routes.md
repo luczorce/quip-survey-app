@@ -92,13 +92,14 @@ Will delete the Survey, and return a `204`, with no content.
 
 The type of question you want to create determines the data you'll send over. You **must** provide the "question_type" value in the request body to ensure we can find the proper Question type to create/edit/delete. Valid values, and the applicable request body for type are:
 
-| question_type | question | order  | options |
+| question_type | question | order  | options | min | max |
 |---------------|:---------|:-------|:--------|
-| text_input    | String   | Number | _do not include_ |
-| textarea      | String   | Number | _do not include_ |
-| select        | String   | Number | Strings~~~Separated~~~With the Tildas |
-| radio         | String   | Number | Strings~~~Separated~~~With the Tildas |
-| checkbox      | String   | Number | Strings~~~Separated~~~With the Tildas |
+| number_input  | String   | Number | _do not include_ | Number _(opt)_ | Number _(opt)_ |
+| text_input    | String   | Number | _do not include_ | _do not include_ | _do not include_ |
+| textarea      | String   | Number | _do not include_ | _do not include_ | _do not include_ |
+| select        | String   | Number | Strings~~~Separated~~~With the Tildas |  _do not include_ | _do not include_ |
+| radio         | String   | Number | Strings~~~Separated~~~With the Tildas | _do not include_ | _do not include_ |
+| checkbox      | String   | Number | Strings~~~Separated~~~With the Tildas | _do not include_ | _do not include_ |
 
 #### `GET` Questions from a Certain Survey
 
@@ -169,13 +170,14 @@ Returns no content with `204` status, or an error with `404`.
 
 You **must** provide the "answer_type" value in the request body to ensure we can find the proper Answer type to create/edit/delete. Valid values, and the applicable request body for type are:
 
-| answer_type | quip_id | answer            |
-|-------------|:--------|:------------------|
-| text_input  | String  | String            |
-| textarea    | String  | String            |
-| select      | String  | String            |
-| radio       | String  | String            |
-| checkbox    | String  | String~~~And More |
+| answer_type   | quip_id | answer            |
+|---------------|:--------|:------------------|
+| number_input  | String  | Number            |
+| text_input    | String  | String            |
+| textarea      | String  | String            |
+| select        | String  | String            |
+| radio         | String  | String            |
+| checkbox      | String  | String~~~And More |
 
 #### `GET` Show a single Answer
 
