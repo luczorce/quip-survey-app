@@ -88,6 +88,44 @@ GET /surveys/:id
 
 Will delete the Survey, and return a `204`, with no content.
 
+#### `GET` A Results of a Survey
+
+```
+GET /surveys/:id/results
+
+# :id is the Id of the Survey to delete
+```
+
+Will gather the results of the provided Survey, and return a `200`. The response will contain:
+
+``` json
+{
+  "survey": {
+    "id": 41,
+    "name": "Friday Hair Survey",
+    "created_at": "2019-01-05T00:33:39.461Z",
+    "updated_at": "2019-01-05T00:33:39.461Z"
+  },
+  "questions": [
+    // all questions from this survey, in order 
+    {}, {}, {}
+  ],
+  "answers": {
+    // all answers to the survey, separated by source quip 
+    // answers include id and type of question they relate to
+    "quipId1": [
+      {}, {}, {}
+    ],
+    "quipId2": [
+      {}, {}, {}
+    ],
+    "quipId3": [
+      {}, {}, {}
+    ]
+  }
+}
+```
+
 ### Questions
 
 The type of question you want to create determines the data you'll send over. You **must** provide the "question_type" value in the request body to ensure we can find the proper Question type to create/edit/delete. Valid values, and the applicable request body for type are:
