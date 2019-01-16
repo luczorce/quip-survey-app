@@ -130,14 +130,14 @@ Will gather the results of the provided Survey, and return a `200`. The response
 
 The type of question you want to create determines the data you'll send over. You **must** provide the "question_type" value in the request body to ensure we can find the proper Question type to create/edit/delete. Valid values, and the applicable request body for type are:
 
-| question_type | question | order  | options | min | max |
-|---------------|:---------|:-------|:--------|
-| number_input  | String   | Number | _do not include_ | Number _(opt)_ | Number _(opt)_ |
-| text_input    | String   | Number | _do not include_ | _do not include_ | _do not include_ |
-| textarea      | String   | Number | _do not include_ | _do not include_ | _do not include_ |
-| select        | String   | Number | Strings~~~Separated~~~With the Tildas |  _do not include_ | _do not include_ |
-| radio         | String   | Number | Strings~~~Separated~~~With the Tildas | _do not include_ | _do not include_ |
-| checkbox      | String   | Number | Strings~~~Separated~~~With the Tildas | _do not include_ | _do not include_ |
+| question_type | question | question\_helper | order  | options | option\_helpers | min | max |
+|---------------|:---------|:-----------------|:-------|:--------|:---------------|:----|:----|
+| number_input  | String   | String | Number | _do not include_ | _do not include_ | Number _(opt)_ | Number _(opt)_ |
+| text_input    | String   | String | Number | _do not include_ |_do not include_ | _do not include_ | _do not include_ |
+| textarea      | String   | String | Number | _do not include_ |_do not include_ | _do not include_ | _do not include_ |
+| select        | String   | String | Number | Strings~~~Separated~~~With the Tildas | S~~~S~~~Tildas | _do not include_ | _do not include_ |
+| radio         | String   | String | Number | Strings~~~Separated~~~With the Tildas | S~~~S~~~Tildas | _do not include_ | _do not include_ |
+| checkbox      | String   | String | Number | Strings~~~Separated~~~With the Tildas | S~~~S~~~Tildas | _do not include_ | _do not include_ |
 
 #### `GET` Questions from a Certain Survey
 

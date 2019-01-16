@@ -126,11 +126,11 @@ class QuestionsController < ApplicationController
 
   def question_params
     if is_option_question?
-      return params.permit(:question, :question_type, :order, :options, :survey_id)
+      return params.permit(:question, :question_helper, :question_type, :order, :options, :option_helpers, :survey_id)
     elsif is_number_input_question?
-      return params.permit(:question, :question_type, :order, :min, :max, :survey_id)
+      return params.permit(:question, :question_helper, :question_type, :order, :min, :max, :survey_id)
     else
-      return params.permit(:question, :question_type, :order, :survey_id)
+      return params.permit(:question, :question_helper, :question_type, :order, :survey_id)
     end
   end
 end

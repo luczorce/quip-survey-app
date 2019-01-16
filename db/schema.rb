@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_07_042239) do
+ActiveRecord::Schema.define(version: 2019_01_16_214749) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(version: 2019_01_07_042239) do
     t.bigint "survey_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "question_helper"
     t.index ["survey_id"], name: "index_input_number_questions_on_survey_id"
   end
 
@@ -54,6 +55,7 @@ ActiveRecord::Schema.define(version: 2019_01_07_042239) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "question_type", default: "text_input"
+    t.string "question_helper"
     t.index ["survey_id"], name: "index_input_text_questions_on_survey_id"
   end
 
@@ -75,6 +77,8 @@ ActiveRecord::Schema.define(version: 2019_01_07_042239) do
     t.string "question_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "question_helper"
+    t.string "option_helpers", array: true
     t.index ["survey_id"], name: "index_option_questions_on_survey_id"
   end
 
@@ -101,6 +105,7 @@ ActiveRecord::Schema.define(version: 2019_01_07_042239) do
     t.bigint "survey_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "question_helper"
     t.index ["survey_id"], name: "index_textarea_questions_on_survey_id"
   end
 
