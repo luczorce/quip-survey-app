@@ -6,6 +6,7 @@ class QuestionsController < ApplicationController
     questions.concat(InputTextQuestion.where(survey_id: params[:survey_id]))
     questions.concat(TextareaQuestion.where(survey_id: params[:survey_id]))
     questions.concat(OptionQuestion.where(survey_id: params[:survey_id]))
+    questions.concat(SurveyHeader.where(survey_id: params[:survey_id]))
 
     questions.sort_by! do |q|
       q[:order]
@@ -17,7 +18,9 @@ class QuestionsController < ApplicationController
   def create
     question = nil
 
-    if is_text_input_question?
+    if is_header_not_question?
+      question = SurveyHeader.new(question_params)
+    elsif is_text_input_question?
       question = InputTextQuestion.new(question_params)
     elsif is_number_input_question?
       question = InputNumberQuestion.new(question_params)
@@ -42,7 +45,9 @@ class QuestionsController < ApplicationController
   def update
     question = nil
 
-    if is_text_input_question?
+    if is_header_not_question?
+      question = SurveyHeader.find(params[:id])
+    elsif is_text_input_question?
       question = InputTextQuestion.find(params[:id])
     elsif is_number_input_question?
       question = InputNumberQuestion.find(params[:id])
@@ -75,7 +80,9 @@ class QuestionsController < ApplicationController
   def destroy
     question = nil
 
-    if is_text_input_question?
+    if is_header_not_question?
+      question = SurveyHeader.find(params[:id])
+    elsif is_text_input_question?
       question = InputTextQuestion.find(params[:id])
     elsif is_number_input_question?
       question = InputNumberQuestion.find(params[:id])
@@ -104,6 +111,10 @@ class QuestionsController < ApplicationController
     return q_params_hash
   end
 
+  def is_header_not_question?
+    params[:question_type] == "header"
+  end
+
   def is_number_input_question?
     params[:question_type] == "number_input"
   end
@@ -125,7 +136,9 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    if is_option_question?
+    if is_header_not_question?
+      return params.permit(:value, :order, :survey_id)
+    elsif is_option_question?
       return params.permit(:question, :question_helper, :question_type, :order, :options, :option_helpers, :survey_id)
     elsif is_number_input_question?
       return params.permit(:question, :question_helper, :question_type, :order, :min, :max, :survey_id)

@@ -139,6 +139,12 @@ The type of question you want to create determines the data you'll send over. Yo
 | radio         | String   | String | Number | Strings~~~Separated~~~With the Tildas | S~~~S~~~Tildas | _do not include_ | _do not include_ |
 | checkbox      | String   | String | Number | Strings~~~Separated~~~With the Tildas | S~~~S~~~Tildas | _do not include_ | _do not include_ |
 
+There is a special type of question handled here, and it's not a question at all. It's a header, intending to separate sections of the form. It is handled much the same way the questions are, since it lives like a question. You'll hit the same question routes, you just will include noticibly different data in payload.
+
+| question_type | value  | order  |
+|---------------|:-------|:-------|
+| header        | String | Number |
+
 #### `GET` Questions from a Certain Survey
 
 ```

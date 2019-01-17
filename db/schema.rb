@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_16_214749) do
+ActiveRecord::Schema.define(version: 2019_01_17_003859) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -82,6 +82,15 @@ ActiveRecord::Schema.define(version: 2019_01_16_214749) do
     t.index ["survey_id"], name: "index_option_questions_on_survey_id"
   end
 
+  create_table "survey_headers", force: :cascade do |t|
+    t.string "value"
+    t.integer "order"
+    t.bigint "survey_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["survey_id"], name: "index_survey_headers_on_survey_id"
+  end
+
   create_table "surveys", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -115,6 +124,7 @@ ActiveRecord::Schema.define(version: 2019_01_16_214749) do
   add_foreign_key "input_text_questions", "surveys"
   add_foreign_key "option_answers", "option_questions"
   add_foreign_key "option_questions", "surveys"
+  add_foreign_key "survey_headers", "surveys"
   add_foreign_key "textarea_answers", "textarea_questions"
   add_foreign_key "textarea_questions", "surveys"
 end

@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  value: About the People
+  order: 1
+  survey: one
+
+two:
+  value: Extra Credit
+  order: 1
+  survey: two
