@@ -108,6 +108,10 @@ class QuestionsController < ApplicationController
       q_params_hash[:options] = q_params_hash[:options].split("~~~")
     end
 
+    if !q_params_hash[:option_helpers].nil? and q_params_hash[:option_helpers].kind_of?(String)
+      q_params_hash[:option_helpers] = q_params_hash[:option_helpers].split("~~~")
+    end
+
     return q_params_hash
   end
 
