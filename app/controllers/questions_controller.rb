@@ -59,7 +59,7 @@ class QuestionsController < ApplicationController
 
     if is_option_question?
       option_question_params = alter_question_options(question_params)
-      question.update!(updates) unless question.nil?
+      question.update!(option_question_params) unless question.nil?
     else
       question.update!(question_params) unless question.nil?
     end
@@ -105,7 +105,9 @@ class QuestionsController < ApplicationController
 
   def alter_question_options(q_params_hash)
     if !q_params_hash[:options].nil? and q_params_hash[:options].kind_of?(String)
-      q_params_hash[:options] = q_params_hash[:options].split("~~~")
+      # http://ruby-doc.org/core-2.2.0/String.html#method-i-split
+      # make sure we're getting ['', 'something', ''] from "~~~something~~~"
+      q_params_hash[:options] = q_params_hash[:options].split("~~~", -1)
     end
 
     if !q_params_hash[:option_helpers].nil? and q_params_hash[:option_helpers].kind_of?(String)
