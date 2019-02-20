@@ -99,19 +99,22 @@ class QuestionsController < ApplicationController
     else 
       render json: {error: missing_question_type("delete")}, status: :bad_request
     end
+  rescue ActiveRecord::RecordNotFound => missing
+    render json: missing, status: :not_found
   end
 
   private
 
   def alter_question_options(q_params_hash)
+    # http://ruby-doc.org/core-2.2.0/String.html#method-i-split
+    # make sure we're getting ['', 'something', ''] from "~~~something~~~"
+
     if !q_params_hash[:options].nil? and q_params_hash[:options].kind_of?(String)
-      # http://ruby-doc.org/core-2.2.0/String.html#method-i-split
-      # make sure we're getting ['', 'something', ''] from "~~~something~~~"
       q_params_hash[:options] = q_params_hash[:options].split("~~~", -1)
     end
 
     if !q_params_hash[:option_helpers].nil? and q_params_hash[:option_helpers].kind_of?(String)
-      q_params_hash[:option_helpers] = q_params_hash[:option_helpers].split("~~~")
+      q_params_hash[:option_helpers] = q_params_hash[:option_helpers].split("~~~", -1)
     end
 
     return q_params_hash
