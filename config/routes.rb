@@ -5,8 +5,9 @@ Rails.application.routes.draw do
     get '/results', to: 'surveys#get_all_results'
   end
 
+  delete '/questions/:question_type/:id', to: 'questions#destroy'
 
-  resources :questions, only: [:update, :destroy] do
+  resources :questions, only: [:update] do
     # TODO add :index as we come to it
     resources :answers, only: :create
   end
