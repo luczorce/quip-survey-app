@@ -58,10 +58,10 @@ If the survey can't be found, then returns `404` with a message:
 "Couldn't find Survey with 'id'=1"
 ```
 
-#### `POST/PUT` A Survey to Update
+#### `PUT/PATCH` A Survey to Update
 
 ```
-GET /surveys/:id
+PUT /surveys/:id
 
 # :id is the Id of the Survey to update
 # data to send over:
@@ -81,7 +81,7 @@ Returns the updated Survey data (same as getting a single Survey), with status o
 #### `DELETE` A Single Survey
 
 ```
-GET /surveys/:id
+DELETE /surveys/:id
 
 # :id is the Id of the Survey to delete
 ```
@@ -202,10 +202,10 @@ Returns the updated question, or an error with either `404` or `400` error.
 #### `DELETE` A Question to delete
 
 ```
-DELETE /questions/:id
+DELETE /questions/:question_type/:id
 
 # :id is the Id of the Question
-# include question_type in the body according to the question table above
+# :question_type is the type of question, which usually gets supplied in the body
 ```
 
 Returns no content with `204` status, or an error with `404`.
