@@ -1,6 +1,6 @@
 class SurveysController < ApplicationController
   def index
-    surveys = Survey.all
+    surveys = Survey.order(:name)
     render json: surveys, status: :ok
   end
 
