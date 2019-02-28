@@ -1,6 +1,6 @@
 class SurveysController < ApplicationController
   def index
-    surveys = Survey.order(:name)
+    surveys = Survey.select(:id, :name).order(:name)
     render json: surveys, status: :ok
   end
 
