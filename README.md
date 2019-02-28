@@ -10,6 +10,7 @@ Ensure you have at least Ruby 2.5 and Rails >5 installed. Create a .env file loc
 RACK_ENV=development
 PORT=3000
 SECURE_KEY=whateveryouwantlocally
+QUIP_TOKEN=your_quip_token
 ```
 
 Then you can install and run the app locally with Heroku:
