@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class QuestionsOptionsTest < ActionDispatch::IntegrationTest
-  test "option 1" do
+  test "options ideal" do
     route = "/surveys/#{surveys(:one).id}/questions"
     params = {
       question_type: "radio",
@@ -20,12 +20,27 @@ class QuestionsOptionsTest < ActionDispatch::IntegrationTest
     assert_equal 'option 3', helpers[2]
   end
 
-  test "option 2 failure" do
+  test "option empty failure" do
     route = "/surveys/#{surveys(:one).id}/questions"
     params = {
       question_type: "radio",
       order: 1,
       question: "test question"
+    }
+
+    post route, params: params, headers: get_test_creds()
+    helpers = response.parsed_body["options"]
+
+    assert_equal 400, status
+  end
+
+  test "options not unique fail" do
+    route = "/surveys/#{surveys(:one).id}/questions"
+    params = {
+      question_type: "radio",
+      order: 1,
+      question: "test question",
+      options: "option 1~~~option 2~~~option 1"
     }
 
     post route, params: params, headers: get_test_creds()
