@@ -7,6 +7,7 @@ class QuestionsController < ApplicationController
     questions.concat(TextareaQuestion.where(survey_id: params[:survey_id]))
     questions.concat(OptionQuestion.where(survey_id: params[:survey_id]))
     questions.concat(SurveyHeader.where(survey_id: params[:survey_id]))
+    questions.concat(RankedQuestion.where(survey_id: params[:survey_id]))
 
     questions.sort_by! do |q|
       q[:order]
@@ -29,6 +30,9 @@ class QuestionsController < ApplicationController
     elsif is_option_question?
       option_question_params = alter_question_options(question_params)
       question = OptionQuestion.new(option_question_params)
+    elsif is_ranked_question?
+      ranked_question_params = alter_question_options(question_params)
+      question = RankedQuestion.new(ranked_question_params)
     end
 
     question.save! unless question.nil?
@@ -55,11 +59,13 @@ class QuestionsController < ApplicationController
       question = TextareaQuestion.find(params[:id])
     elsif is_option_question?
       question = OptionQuestion.find(params[:id])
+    elsif is_ranked_question?
+      question = RankedQuestion.find(params[:id])
     end
 
-    if is_option_question?
-      option_question_params = alter_question_options(question_params)
-      question.update!(option_question_params) unless question.nil?
+    if is_option_question? or is_ranked_question?
+      raw_question_params = alter_question_options(question_params)
+      question.update!(raw_question_params) unless question.nil?
     else
       question.update!(question_params) unless question.nil?
     end
@@ -90,6 +96,8 @@ class QuestionsController < ApplicationController
       question = TextareaQuestion.find(params[:id])
     elsif is_option_question?
       question = OptionQuestion.find(params[:id])
+    elsif is_ranked_question?
+      question = RankedQuestion.find(params[:id])
     end
 
     question.destroy unless question.nil?
@@ -140,6 +148,10 @@ class QuestionsController < ApplicationController
     ["select", "radio", "checkbox"].include? params[:question_type]
   end
 
+  def is_ranked_question?
+    params[:question_type] == "ranked"
+  end
+
   def missing_question_type(action= "create") 
     "Could not determine which question to #{action}"
   end
@@ -147,7 +159,7 @@ class QuestionsController < ApplicationController
   def question_params
     if is_header_not_question?
       return params.permit(:value, :order, :survey_id)
-    elsif is_option_question?
+    elsif is_option_question? or is_ranked_question?
       return params.permit(:question, :question_helper, :question_type, :order, :options, :option_helpers, :survey_id)
     elsif is_number_input_question?
       return params.permit(:question, :question_helper, :question_type, :order, :min, :max, :survey_id)
