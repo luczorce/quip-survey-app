@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  question: Please order the following choices by favorite.
+  question_helper: Your most favorite should be at the top.
+  question_type: ranked
+  survey: one
+  order: 1
+  options: [ "peanut butter", "chocolate", "gummies", "cake" ]
+  option_helpers: [ "", "", "", "" ]
+
+two:
+  question: How do you approach a dental hygiene?
+  question_helper: ""
+  question_type: ranked
+  survey: two
+  order: 1
+  options: [ "Wet the tooth brush", "Apply tooth paste", "Brush", "Floss", "Rinse" ]
+  option_helpers: [ "", "", "", "", "" ]

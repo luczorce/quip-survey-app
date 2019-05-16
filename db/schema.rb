@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_17_070643) do
+ActiveRecord::Schema.define(version: 2019_05_16_163205) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -82,6 +82,19 @@ ActiveRecord::Schema.define(version: 2019_01_17_070643) do
     t.index ["survey_id"], name: "index_option_questions_on_survey_id"
   end
 
+  create_table "ranked_questions", force: :cascade do |t|
+    t.string "question"
+    t.string "question_type", default: "ranked"
+    t.bigint "survey_id"
+    t.integer "order"
+    t.string "question_helper"
+    t.string "options", array: true
+    t.string "option_helpers", array: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["survey_id"], name: "index_ranked_questions_on_survey_id"
+  end
+
   create_table "survey_headers", force: :cascade do |t|
     t.string "value"
     t.integer "order"
@@ -125,6 +138,7 @@ ActiveRecord::Schema.define(version: 2019_01_17_070643) do
   add_foreign_key "input_text_questions", "surveys"
   add_foreign_key "option_answers", "option_questions"
   add_foreign_key "option_questions", "surveys"
+  add_foreign_key "ranked_questions", "surveys"
   add_foreign_key "survey_headers", "surveys"
   add_foreign_key "textarea_answers", "textarea_questions"
   add_foreign_key "textarea_questions", "surveys"
