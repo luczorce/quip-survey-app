@@ -76,6 +76,11 @@ class SurveysController < ApplicationController
       questions << q
     }
 
+    RankedQuestion.includes(:ranked_answers).where(survey_id: params[:survey_id]).each { |q|
+      answers.concat(q.ranked_answers)
+      questions << q
+    }
+
     questions.sort_by! do |q|
       q[:order]
     end
