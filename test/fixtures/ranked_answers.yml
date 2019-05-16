@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  answer: [ "chocolate", "gummies", "cake", "peanut butter" ]
+  quip_id: MyStringRanked1
+  answer_type: ranked
+  ranked_question: one
+
+two:
+  answer: [ "Floss", "Wet the tooth brush", "Apply tooth paste", "Brush", "Rinse" ]
+  quip_id: MyStringRanked2
+  answer_type: ranked
+  ranked_question: two

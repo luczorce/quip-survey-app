@@ -1,5 +1,6 @@
 class RankedQuestion < ApplicationRecord
   belongs_to :survey
+  has_many :ranked_answers, :dependent => :destroy
 
   validates :question, presence: true, uniqueness: { scope: :survey }
   validate :options_are_not_empty_and_unique
