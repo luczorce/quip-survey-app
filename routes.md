@@ -138,6 +138,7 @@ The type of question you want to create determines the data you'll send over. Yo
 | select        | String   | String | Number | Strings~~~Separated~~~With the Tildas | S~~~S~~~Tildas | _do not include_ | _do not include_ |
 | radio         | String   | String | Number | Strings~~~Separated~~~With the Tildas | S~~~S~~~Tildas | _do not include_ | _do not include_ |
 | checkbox      | String   | String | Number | Strings~~~Separated~~~With the Tildas | S~~~S~~~Tildas | _do not include_ | _do not include_ |
+| ranked        | String   | String | Number | Strings~~~Separated~~~With the Tildas | S~~~S~~~Tildas | _do not include_ | _do not include_ |
 
 There is a special type of question handled here, and it's not a question at all. It's a header, intending to separate sections of the form. It is handled much the same way the questions are, since it lives like a question. You'll hit the same question routes, you just will include noticibly different data in payload.
 
@@ -214,14 +215,15 @@ Returns no content with `204` status, or an error with `404`.
 
 You **must** provide the "answer_type" value in the request body to ensure we can find the proper Answer type to create/edit/delete. Valid values, and the applicable request body for type are:
 
-| answer_type   | quip_id | answer            |
-|---------------|:--------|:------------------|
-| number_input  | String  | Number            |
-| text_input    | String  | String            |
-| textarea      | String  | String            |
-| select        | String  | String            |
-| radio         | String  | String            |
-| checkbox      | String  | String~~~And More |
+| answer_type   | quip_id | answer                 |
+|---------------|:--------|:-----------------------|
+| number_input  | String  | Number                 |
+| text_input    | String  | String                 |
+| textarea      | String  | String                 |
+| select        | String  | String                 |
+| radio         | String  | String                 |
+| checkbox      | String  | String~~~And More      |
+| ranked.       | String  | String~~~All~~~Options |
 
 #### `GET` Show a single Answer
 
