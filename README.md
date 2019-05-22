@@ -42,3 +42,10 @@ We'll have a job running on Heroku that will go through each documented quip thr
 ``` bash
 heroku local:run rake validate_thread_ids
 ```
+
+### Make sure you migrate any database scheme updates!
+
+```
+heroku run -a eio-qi-survey rails db:migrate
+heroku run -a deio-qi-survey rails db:migrate
+```
