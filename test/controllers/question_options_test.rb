@@ -2,7 +2,7 @@ require 'test_helper'
 
 class QuestionsOptionsTest < ActionDispatch::IntegrationTest
   test "options ideal" do
-    route = "/surveys/#{surveys(:one).id}/questions"
+    route = question_create_route(surveys(:one).id)
     params = {
       question_type: "radio",
       order: 1,
@@ -21,7 +21,7 @@ class QuestionsOptionsTest < ActionDispatch::IntegrationTest
   end
 
   test "option empty failure" do
-    route = "/surveys/#{surveys(:one).id}/questions"
+    route = question_create_route(surveys(:one).id)
     params = {
       question_type: "radio",
       order: 1,
@@ -35,7 +35,7 @@ class QuestionsOptionsTest < ActionDispatch::IntegrationTest
   end
 
   test "options not unique fail" do
-    route = "/surveys/#{surveys(:one).id}/questions"
+    route = question_create_route(surveys(:one).id)
     params = {
       question_type: "radio",
       order: 1,
@@ -52,7 +52,7 @@ end
 
 class QuestionsOptionHelpersTest < ActionDispatch::IntegrationTest
   test "option helpers 1" do
-    route = "/surveys/#{surveys(:one).id}/questions"
+    route = question_create_route(surveys(:one).id)
     params = {
       question_type: "radio",
       order: 1,
@@ -72,7 +72,7 @@ class QuestionsOptionHelpersTest < ActionDispatch::IntegrationTest
   end
 
   test "option helpers 2" do
-    route = "/surveys/#{surveys(:one).id}/questions"
+    route = question_create_route(surveys(:one).id)
     params = {
       question_type: "radio",
       order: 1,
@@ -92,7 +92,7 @@ class QuestionsOptionHelpersTest < ActionDispatch::IntegrationTest
   end
 
   test "option helpers 3" do
-    route = "/surveys/#{surveys(:one).id}/questions"
+    route = question_create_route(surveys(:one).id)
     params = {
       question_type: "radio",
       order: 1,
@@ -113,7 +113,7 @@ class QuestionsOptionHelpersTest < ActionDispatch::IntegrationTest
   end
 
   test "option helpers 4" do
-    route = "/surveys/#{surveys(:one).id}/questions"
+    route = question_create_route(surveys(:one).id)
     params = {
       question_type: "radio",
       order: 1,

@@ -10,6 +10,8 @@ class AnswersController < ApplicationController
       answer = TextareaAnswer.find(params[:id])
     elsif is_option_question?
       answer = OptionAnswer.find(params[:id])
+    elsif is_ranked_question?
+      answer = RankedAnswer.find(params[:id])
     end
 
     if answer
@@ -37,6 +39,10 @@ class AnswersController < ApplicationController
       option_answer_params = alter_option_answer(answer_params)
       answer = OptionAnswer.new(option_answer_params)
       answer.option_question_id = params[:question_id]
+    elsif is_ranked_question?
+      ranked_answer_params = alter_option_answer(answer_params)
+      answer = RankedAnswer.new(ranked_answer_params)
+      answer.ranked_question_id = params[:question_id]
     end
 
     answer.save! unless answer.nil?
@@ -61,11 +67,13 @@ class AnswersController < ApplicationController
       answer = TextareaAnswer.find(params[:id])
     elsif is_option_question?
       answer = OptionAnswer.find(params[:id])
+    elsif is_ranked_question?
+      answer = RankedAnswer.find(params[:id])
     end
 
-    if is_option_question?
-      option_answer_params = alter_option_answer(answer_params)
-      answer.update!(option_answer_params) unless answer.nil?
+    if is_option_question? or is_ranked_question?
+      altered_answer_params = alter_option_answer(answer_params)
+      answer.update!(altered_answer_params) unless answer.nil?
     else
       answer.update!(answer_params) unless answer.nil?
     end
@@ -111,6 +119,10 @@ class AnswersController < ApplicationController
 
   def is_option_question?
     ["select", "radio", "checkbox"].include? params[:answer_type]
+  end
+
+  def is_ranked_question?
+    params[:answer_type] == "ranked"
   end
 
   def missing_answer_type(action= "create") 
