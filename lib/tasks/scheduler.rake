@@ -6,6 +6,7 @@ task :validate_thread_ids => :environment do
   input_number_ids = InputNumberAnswer.select(:quip_id).distinct.map { |a| a.quip_id }
   textarea_ids = TextareaAnswer.select(:quip_id).distinct.map { |a| a.quip_id }
   option_ids = OptionAnswer.select(:quip_id).distinct.map { |a| a.quip_id }
+  option_ids = RankedAnswer.select(:quip_id).distinct.map { |a| a.quip_id }
 
   available_thread_ids = input_text_ids.concat(input_number_ids)
   available_thread_ids.concat(textarea_ids)
@@ -36,6 +37,7 @@ task :validate_thread_ids => :environment do
       invalid_answers << InputNumberAnswer.where(quip_id: id).destroy_all
       invalid_answers << TextareaAnswer.where(quip_id: id).destroy_all
       invalid_answers << OptionAnswer.where(quip_id: id).destroy_all
+      invalid_answers << RankedAnswer.where(quip_id: id).destroy_all
     end
 
     puts "removed #{invalid_answers.size} answers"
