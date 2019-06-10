@@ -19,7 +19,7 @@ Then you can install and run the app locally with Heroku:
 cd quip_survey_app
 bundle install
 rails db:setup
-heroku local
+heroku local -f Procfile.local
 ```
 
 ### Need Local SSL?
