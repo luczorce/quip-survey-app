@@ -130,8 +130,8 @@ Will gather the results of the provided Survey, and return a `200`. The response
 
 ```
 POST /surveys/:id/clone
-
-# :id is the Id of the Survey to clone
+# data to send over:
+# name: "A String to name the copied Survey"
 ```
 
 Will clone the survey and it's questions, and return a `201`. The response will contain:
