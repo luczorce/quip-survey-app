@@ -30,4 +30,8 @@ class ActiveSupport::TestCase
     "/questions/#{question_id}"
   end
 
+  def survey_clone_route(survey_id)
+    "/surveys/#{survey_id}/clone"
+  end
+
 end

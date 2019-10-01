@@ -50,7 +50,52 @@ class SurveysController < ApplicationController
     render json: missing, status: :not_found
   end
 
+  def clone_survey
+    survey = Survey.find(params[:survey_id])
+
+    new_survey = survey.dup
+    new_survey.name = survey_params["name"]
+    new_survey.save!
+
+    InputNumberQuestion.where(survey_id: params[:survey_id]).each do |q|
+      duplicate_question(q, new_survey.id)
+    end
+
+    InputTextQuestion.where(survey_id: params[:survey_id]).each do |q|
+      duplicate_question(q, new_survey.id)
+    end
+
+    TextareaQuestion.where(survey_id: params[:survey_id]).each do |q|
+      duplicate_question(q, new_survey.id)
+    end
+
+    OptionQuestion.where(survey_id: params[:survey_id]).each do |q|
+      duplicate_question(q, new_survey.id)
+    end
+
+    SurveyHeader.where(survey_id: params[:survey_id]).each do |q|
+      duplicate_question(q, new_survey.id)
+    end
+
+    RankedQuestion.where(survey_id: params[:survey_id]).each do |q|
+      duplicate_question(q, new_survey.id)
+    end
+
+
+    render json: new_survey, status: :created
+  rescue ActiveRecord::RecordInvalid => invalid
+    render json: invalid.record.errors, status: :bad_request
+  rescue ActiveRecord::RecordNotFound => missing
+    render json: missing, status: :not_found
+  end
+
   private
+
+  def duplicate_question(question, survey_id)
+    question.dup
+    question.survey_id = survey_id
+    question.save!
+  end
 
   def get_questions_and_answers
     questions = Array.new
