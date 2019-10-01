@@ -3,6 +3,7 @@ Rails.application.routes.draw do
     resources :questions, except: [:show, :update, :destroy]
 
     get '/results', to: 'surveys#get_all_results'
+    post '/clone', to: 'surveys#clone_survey'
   end
 
   delete '/questions/:question_type/:id', to: 'questions#destroy'
