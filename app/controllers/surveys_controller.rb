@@ -92,9 +92,9 @@ class SurveysController < ApplicationController
   private
 
   def duplicate_question(question, survey_id)
-    question.dup
-    question.survey_id = survey_id
-    question.save!
+    dup_question = question.dup
+    dup_question.survey_id = survey_id
+    dup_question.save!
   end
 
   def get_questions_and_answers
