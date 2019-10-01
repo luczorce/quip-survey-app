@@ -129,7 +129,7 @@ Will gather the results of the provided Survey, and return a `200`. The response
 #### `POST` Clone a Survey
 
 ```
-GET /surveys/:id/clone
+POST /surveys/:id/clone
 
 # :id is the Id of the Survey to clone
 ```
