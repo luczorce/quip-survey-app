@@ -35,6 +35,8 @@ heroku local -f Procfile.local
    ```
 4. Continue on with `heroku local`
 
+_Alternative_: instead of changing the `Procile` you can also run `heroku local -f Profile.local`
+
 ### Cleaning up old answers
 
 We'll have a job running on Heroku that will go through each documented quip thread (stored as `quip_id` under each answer type), see if it's valid, and delete any answers that have an invalid thread. To run this locally, use:

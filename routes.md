@@ -126,6 +126,27 @@ Will gather the results of the provided Survey, and return a `200`. The response
 }
 ```
 
+#### `POST` Clone a Survey
+
+```
+GET /surveys/:id/clone
+
+# :id is the Id of the Survey to clone
+```
+
+Will clone the survey and it's questions, and return a `201`. The response will contain:
+
+``` json
+{
+  "survey": {
+    "id": 41,
+    "name": "Friday Hair Survey",
+    "created_at": "2019-01-05T00:33:39.461Z",
+    "updated_at": "2019-01-05T00:33:39.461Z"
+  }
+}
+```
+
 ### Questions
 
 The type of question you want to create determines the data you'll send over. You **must** provide the "question_type" value in the request body to ensure we can find the proper Question type to create/edit/delete. Valid values, and the applicable request body for type are:
