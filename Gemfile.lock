@@ -82,7 +82,7 @@ GEM
     puma (3.12.2)
     quip (0.1.0)
       unirest
-    rack (2.0.6)
+    rack (2.0.8)
     rack-cors (1.0.5)
       rack (>= 1.6.0)
     rack-test (1.1.0)
