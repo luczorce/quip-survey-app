@@ -164,7 +164,7 @@ class SurveysController < ApplicationController
   end
 
   def process_csv_file(survey, csv)
-    filename = "Survey Results - #{survey.name} - #{Date.today.to_formatted_s(:db)}"
+    filename = "Survey Results - #{survey.name} - #{Date.today.to_formatted_s(:db)}.csv"
     
     send_data csv,
               type: 'type/csv; charset=iso-8859-1; header=present',

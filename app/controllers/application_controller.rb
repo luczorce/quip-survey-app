@@ -7,6 +7,8 @@ class ApplicationController < ActionController::Base
 
   private
     def authenticate
+      return true if request.referer.eql? "https://salesforce.quip.com/"
+      
       authenticate_or_request_with_http_token do |token, options|
         ActiveSupport::SecurityUtils.secure_compare(token, TOKEN)
       end
