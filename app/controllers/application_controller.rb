@@ -1,6 +1,6 @@
 include ActionController::HttpAuthentication::Token::ControllerMethods
 
-class ApplicationController < ActionController::API
+class ApplicationController < ActionController::Base
   TOKEN = ENV.fetch("SECURE_KEY")
 
   before_action :authenticate
