@@ -4,6 +4,7 @@ Rails.application.routes.draw do
 
     get '/results', to: 'surveys#get_all_results'
     post '/clone', to: 'surveys#clone_survey'
+    get '/download-results', to: 'surveys#download_results'
   end
 
   delete '/questions/:question_type/:id', to: 'questions#destroy'
