@@ -89,6 +89,22 @@ class SurveysController < ApplicationController
     render json: missing, status: :not_found
   end
 
+  def download_results
+    survey = Survey.find(params[:survey_id])
+    q_and_a = get_questions_and_answers()
+    questions = q_and_a[:questions]
+    answers = q_and_a[:answers]
+
+    respond_to do |format|
+      format.csv { process_csv_file(survey, make_answer_csv(survey, questions, answers)) }
+    end
+
+  rescue ActiveRecord::RecordInvalid => invalid
+    render json: invalid.record.errors, status: :bad_request
+  rescue ActiveRecord::RecordNotFound => missing
+    render json: missing, status: :not_found
+  end
+
   private
 
   def duplicate_question(question, survey_id)
@@ -145,5 +161,25 @@ class SurveysController < ApplicationController
 
   def survey_params
     params.permit(:name)
+  end
+
+  def process_csv_file(survey, csv)
+    filename = "Survey Results - #{survey.name} - #{Date.today.to_formatted_s(:db)}.csv"
+    
+    send_data csv,
+              type: 'type/csv; charset=iso-8859-1; header=present',
+              disposition: 'attachment',
+              filename: filename
+  end
+
+  def make_answer_csv(survey, questions, answers)
+    headers = []
+    headers << 'quid_id'
+    
+    questions.each do |question|
+      headers << question.question
+    end
+
+    CsvExports::SurveyService.new(answers, questions, headers).to_csv
   end
 end
