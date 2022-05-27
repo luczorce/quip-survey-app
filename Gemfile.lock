@@ -70,7 +70,9 @@ GEM
       mimemagic (~> 0.3.2)
     method_source (0.9.2)
     mime-types (1.25.1)
-    mimemagic (0.3.2)
+    mimemagic (0.3.10)
+      nokogiri (~> 1)
+      rake
     mini_mime (1.0.1)
     mini_portile2 (2.4.0)
     minitest (5.11.3)
@@ -82,7 +84,7 @@ GEM
     puma (3.12.4)
     quip (0.1.0)
       unirest
-    rack (2.2.3)
+    rack (2.2.3.1)
     rack-cors (1.0.5)
       rack (>= 1.6.0)
     rack-test (1.1.0)
